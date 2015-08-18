@@ -1,5 +1,6 @@
 package com.bitwyze.simpletodo;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -48,15 +50,21 @@ public class MainActivity extends ActionBarActivity {
     public void onAddItem(View v)
     {
         EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);    // dismiss the keyboard
+        imm.hideSoftInputFromWindow(etNewItem.getWindowToken(), 0);
         String itemText = etNewItem.getText().toString();
-        items.add(itemText);
+        items.add(itemText);    // add the item
         itemsAdapter.notifyDataSetChanged();
         etNewItem.setText("");      // clear out the item
         writeItems();
     }
 
+    private void dismissKeyboard() {
+
+    }
 
     private void setupListViewListener() {
+        // long click indicates deleting an item
         lvItems.setOnItemLongClickListener(
                 new AdapterView.OnItemLongClickListener() {
                     @Override
@@ -70,6 +78,7 @@ public class MainActivity extends ActionBarActivity {
         );
 
         lvItems.setClickable(true);
+        // when click on item open up EditTaskActivity
         lvItems.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
                     @Override
@@ -86,6 +95,7 @@ public class MainActivity extends ActionBarActivity {
         );
     }
 
+    // read the items from text file todo.txt
     private void readItems() {
         File filesDir = getFilesDir();
         File todoFile = new File(filesDir, "todo.txt");
@@ -96,6 +106,7 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    // write the items to text file todo.txt
     private void writeItems() {
         File filesDir = getFilesDir();
         File todoFile = new File(filesDir, "todo.txt");

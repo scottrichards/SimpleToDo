@@ -10,9 +10,9 @@ import android.widget.EditText;
 
 
 public class EditTaskActivity extends ActionBarActivity {
-    public static final int REQUEST_CODE = 20;
     int itemPosition;
 
+    // read in the data passed from the main view and set the edittext
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,12 +45,12 @@ public class EditTaskActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // User clicked save go back to Main view
     public void onSaveItem(View view) {
         Intent mainIntent = new Intent(EditTaskActivity.this,MainActivity.class);
         EditText editText = (EditText) findViewById(R.id.editText);
         mainIntent.putExtra("itemData", editText.getText().toString());
         mainIntent.putExtra("itemPosition", itemPosition);
         startActivity(mainIntent);
-//        finish();
     }
 }
