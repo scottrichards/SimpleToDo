@@ -26,22 +26,27 @@ public class MainActivity extends ActionBarActivity {
     ArrayAdapter<String> itemsAdapter;
     ArrayList<String> items;
     private static final String TAG = "MainActivity";
+    private Boolean readFromDatabase = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         lvItems = (ListView)findViewById(R.id.lvItems);
-        readItems();
+        if (!readFromDatabase) {
+            readItems();
+            readFromDatabase = true;
+        }
         itemsAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, items);
         lvItems.setAdapter(itemsAdapter);
         setupListViewListener();
-        String itemData = getIntent().getStringExtra("itemData");   // check if we are coming back from editing an item we will have itemData
-        if (itemData != null && itemData.length() > 0) {    // if itemData update the item
+        String itemUpdatedData = getIntent().getStringExtra("itemUpdatedData");   // check if we are coming back from editing an item we will have itemData
+        if (itemUpdatedData != null && itemUpdatedData.length() > 0) {    // if itemData update the item
             int itemPosition = getIntent().getIntExtra("itemPosition",0);
-            items.set(itemPosition, itemData);
+            String oldItemData = getIntent().getStringExtra("itemData");   // check if we are coming back from editing an item we will have itemData
+            items.set(itemPosition, itemUpdatedData);
             itemsAdapter.notifyDataSetChanged();
-            writeItems();
+            ItemsReaderDbHelper.getInstance(this).updateItem(oldItemData, itemUpdatedData);
         }
     }
 
@@ -54,9 +59,9 @@ public class MainActivity extends ActionBarActivity {
         imm.hideSoftInputFromWindow(etNewItem.getWindowToken(), 0);
         String itemText = etNewItem.getText().toString();
         items.add(itemText);    // add the item
+        ItemsReaderDbHelper.getInstance(this).addItem(itemText);
         itemsAdapter.notifyDataSetChanged();
         etNewItem.setText("");      // clear out the item
-        writeItems();
     }
 
     private void dismissKeyboard() {
@@ -69,9 +74,10 @@ public class MainActivity extends ActionBarActivity {
                 new AdapterView.OnItemLongClickListener() {
                     @Override
                     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                        String itemString = itemsAdapter.getItem(position);
+                        ItemsReaderDbHelper.getInstance(getApplicationContext()).deleteItem(itemString);
                         items.remove(position);
                         itemsAdapter.notifyDataSetChanged();
-                        writeItems();
                         return true;
                     }
                 }
@@ -100,22 +106,12 @@ public class MainActivity extends ActionBarActivity {
         File filesDir = getFilesDir();
         File todoFile = new File(filesDir, "todo.txt");
         try {
-            items = new ArrayList<String>(FileUtils.readLines(todoFile));
-        } catch (IOException e) {
+            items = ItemsReaderDbHelper.getInstance(this).getAllItems();
+        } catch (Exception e) {
             items = new ArrayList<String>();
         }
     }
-
-    // write the items to text file todo.txt
-    private void writeItems() {
-        File filesDir = getFilesDir();
-        File todoFile = new File(filesDir, "todo.txt");
-        try {
-            FileUtils.writeLines(todoFile,items);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
