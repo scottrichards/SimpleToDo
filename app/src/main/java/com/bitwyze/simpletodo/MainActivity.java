@@ -2,6 +2,8 @@ package com.bitwyze.simpletodo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,31 +25,23 @@ import java.util.ArrayList;
 
 public class MainActivity extends ActionBarActivity {
     ListView lvItems;
-    ArrayAdapter<String> itemsAdapter;
-    ArrayList<String> items;
     private static final String TAG = "MainActivity";
     private Boolean readFromDatabase = false;
+    private Cursor todoCursor;
+    TodoCursorAdapter todoAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        lvItems = (ListView)findViewById(R.id.lvItems);
         if (!readFromDatabase) {
             readItems();
             readFromDatabase = true;
+
         }
-        itemsAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, items);
-        lvItems.setAdapter(itemsAdapter);
+
         setupListViewListener();
-        String itemUpdatedData = getIntent().getStringExtra("itemUpdatedData");   // check if we are coming back from editing an item we will have itemData
-        if (itemUpdatedData != null && itemUpdatedData.length() > 0) {    // if itemData update the item
-            int itemPosition = getIntent().getIntExtra("itemPosition",0);
-            String oldItemData = getIntent().getStringExtra("itemData");   // check if we are coming back from editing an item we will have itemData
-            items.set(itemPosition, itemUpdatedData);
-            itemsAdapter.notifyDataSetChanged();
-            ItemsReaderDbHelper.getInstance(this).updateItem(oldItemData, itemUpdatedData);
-        }
+
     }
 
 
@@ -58,10 +52,9 @@ public class MainActivity extends ActionBarActivity {
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);    // dismiss the keyboard
         imm.hideSoftInputFromWindow(etNewItem.getWindowToken(), 0);
         String itemText = etNewItem.getText().toString();
-        items.add(itemText);    // add the item
-        ItemsReaderDbHelper.getInstance(this).addItem(itemText);
-        itemsAdapter.notifyDataSetChanged();
+        ItemsReaderDbHelper.getInstance(this).addItem(itemText,"Medium");
         etNewItem.setText("");      // clear out the item
+        readItems();
     }
 
     private void dismissKeyboard() {
@@ -74,10 +67,14 @@ public class MainActivity extends ActionBarActivity {
                 new AdapterView.OnItemLongClickListener() {
                     @Override
                     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                        String itemString = itemsAdapter.getItem(position);
-                        ItemsReaderDbHelper.getInstance(getApplicationContext()).deleteItem(itemString);
-                        items.remove(position);
-                        itemsAdapter.notifyDataSetChanged();
+                        Cursor cursor = (Cursor) lvItems.getItemAtPosition(position);
+
+                        // Get the state's capital from this row in the database.
+                        Long itemId =
+                                cursor.getLong(cursor.getColumnIndexOrThrow(ToDoItemReaderContract.ToDoItemEntry._ID));
+                        ItemsReaderDbHelper.getInstance(getApplicationContext()).deleteItem(itemId);
+                        todoAdapter.notifyDataSetChanged();
+                        readItems();
                         return true;
                     }
                 }
@@ -89,12 +86,16 @@ public class MainActivity extends ActionBarActivity {
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Cursor cursor = (Cursor) lvItems.getItemAtPosition(position);
+
+                        // Get the state's capital from this row in the database.
+                        Long itemId =
+                                cursor.getLong(cursor.getColumnIndexOrThrow(ToDoItemReaderContract.ToDoItemEntry._ID));
+                        String itemTitle =
+                                cursor.getString(cursor.getColumnIndexOrThrow(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_TITLE));
+                        Log.d(this.getClass().getSimpleName(),"Item: " + itemTitle);
                         Intent editIntent = new Intent(MainActivity.this,EditTaskActivity.class);
-                        if (position < itemsAdapter.getCount()) {
-                            String itemString = itemsAdapter.getItem(position);
-                            editIntent.putExtra("itemData", itemString);
-                            editIntent.putExtra("itemPosition", position);
-                        }
+                        editIntent.putExtra("id", itemId);
                         startActivity(editIntent);
                     }
                 }
@@ -103,15 +104,17 @@ public class MainActivity extends ActionBarActivity {
 
     // read the items from text file todo.txt
     private void readItems() {
-        File filesDir = getFilesDir();
-        File todoFile = new File(filesDir, "todo.txt");
         try {
-            items = ItemsReaderDbHelper.getInstance(this).getAllItems();
+            todoCursor = ItemsReaderDbHelper.getInstance(this).getCursor(this);
+            lvItems = (ListView)findViewById(R.id.lvItems);
+            // Setup cursor adapter using cursor from last step
+            todoAdapter = new TodoCursorAdapter(this, todoCursor, 0);
+            // Attach cursor adapter to the ListView
+            lvItems.setAdapter(todoAdapter);
         } catch (Exception e) {
-            items = new ArrayList<String>();
         }
     }
-    
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

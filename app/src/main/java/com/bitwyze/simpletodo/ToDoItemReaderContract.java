@@ -16,6 +16,7 @@ public final class ToDoItemReaderContract {
         public static final String TABLE_NAME = "todoitems";
         public static final String COLUMN_NAME_ENTRY_ID = "entryid";
         public static final String COLUMN_NAME_TITLE = "title";
+        public static final String COLUMN_NAME_PRIORITY = "priority";
     }
 
 
