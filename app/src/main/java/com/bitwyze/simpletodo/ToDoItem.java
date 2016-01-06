@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
+import java.util.Date;
+
 
 /**
  * Created by scottrichards on 8/30/15.
@@ -12,6 +14,7 @@ public class ToDoItem {
     private long id;
     private String title;
     private String priority;
+    private Date dueDate;
 
     public long getId() {
         return id;
@@ -55,5 +58,13 @@ public class ToDoItem {
     @Override
     public String toString() {
         return title;
+    }
+
+    public Date getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
     }
 }

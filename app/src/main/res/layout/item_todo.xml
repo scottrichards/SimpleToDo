@@ -18,5 +18,6 @@
         android:text="High"
         android:id="@+id/itemPriority"
         android:layout_gravity="right"
+        android:gravity="center"
         android:layout_marginRight="10dp" />
 </LinearLayout>

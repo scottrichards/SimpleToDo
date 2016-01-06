@@ -1,5 +1,6 @@
 package com.bitwyze.simpletodo;
 
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -12,14 +13,20 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.TextView;
+
+import java.util.Date;
 
 
-public class EditTaskActivity extends ActionBarActivity implements OnItemSelectedListener  {
+public class EditTaskActivity extends ActionBarActivity implements OnItemSelectedListener, DatePickerFragment.EditNameDialogListener {
 //    int itemPosition;
     Long itemId;
     ToDoItem toDoItem;
     private Spinner prioritySpinner;
+    private TextView dueDateText;
     public String newPriority;
+    public Date newDate;
+    public Boolean setDate;
 
     // read in the data passed from the main view and set the edittext
     @Override
@@ -32,6 +39,7 @@ public class EditTaskActivity extends ActionBarActivity implements OnItemSelecte
         editText.setText(toDoItem.getTitle());
         newPriority = toDoItem.getPriority();
         addListenerOnSpinnerItemSelection();
+        dueDateText = (TextView) findViewById(R.id.displayDate);
         setPrioritySpinnerItem(newPriority);
     }
 
@@ -42,18 +50,39 @@ public class EditTaskActivity extends ActionBarActivity implements OnItemSelecte
 
     private void setPrioritySpinnerItem(String priority)
     {
-        prioritySpinner.setSelection(((ArrayAdapter)prioritySpinner.getAdapter()).getPosition(priority));
+        prioritySpinner.setSelection(((ArrayAdapter) prioritySpinner.getAdapter()).getPosition(priority));
     }
 
+    // Handlers
     // User clicked save go back to Main view
     public void onSaveItem(View view) {
         Intent mainIntent = new Intent(EditTaskActivity.this,MainActivity.class);
         EditText editText = (EditText) findViewById(R.id.editText);
         toDoItem.setTitle(editText.getText().toString());
         toDoItem.setPriority(newPriority);
+        if (setDate) {
+            toDoItem.setDueDate(newDate);
+        }
         ItemsReaderDbHelper.getInstance(this).updateItem(toDoItem);
         startActivity(mainIntent);
     }
+
+    public void onSetDueDate(View view) {
+        Log.d("EditTaskActivity", "onSetDueDate: ");
+        DialogFragment picker = new DatePickerFragment();
+        picker.show(getFragmentManager(), "datePicker");
+    }
+
+    // Handle receiving date info from DatePicker DialogFragment
+    public void onFinishEditDialog(Boolean setDate,String formattedDate,Date selectedDate) {
+        if (setDate) {
+            this.setDate = setDate;
+            this.newDate = selectedDate;
+            dueDateText.setText(formattedDate);
+        }
+        Log.d("EditTaskActivity","Selected Date: " + formattedDate);
+    }
+
 
     public void onCancel(View view)
     {
