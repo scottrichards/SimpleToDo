@@ -44,6 +44,9 @@ public class ToDoItem {
         ContentValues values = new ContentValues();
         values.put(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_TITLE, title);
         values.put(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_PRIORITY, priority);
+   //     if (dueDate != null) {
+            values.put(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_DUE_DATE, persistDate(dueDate));
+    //    }
         return values;
     }
 
@@ -52,6 +55,11 @@ public class ToDoItem {
         setId(cursor.getLong(cursor.getColumnIndexOrThrow(ToDoItemReaderContract.ToDoItemEntry._ID)));
         setTitle(cursor.getString(cursor.getColumnIndexOrThrow(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_TITLE)));
         setPriority(cursor.getString(cursor.getColumnIndexOrThrow(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_PRIORITY)));
+        Long longDate;
+        Date convertedDate;
+        int dueDateColumnIndex = cursor.getColumnIndexOrThrow(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_DUE_DATE);
+        longDate = cursor.getLong(cursor.getColumnIndexOrThrow(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_DUE_DATE));
+        setDueDate(loadDate(cursor,cursor.getColumnIndexOrThrow(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_DUE_DATE)));
     }
 
     // Will be used by the ArrayAdapter in the ListView
@@ -66,5 +74,19 @@ public class ToDoItem {
 
     public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public static Long persistDate(Date date) {
+        if (date != null) {
+            return date.getTime();
+        }
+        return null;
+    }
+
+    public static Date loadDate(Cursor cursor, int index) {
+        if (cursor.isNull(index)) {
+            return null;
+        }
+        return new Date(cursor.getLong(index));
     }
 }

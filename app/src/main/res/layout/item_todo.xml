@@ -10,14 +10,20 @@
         android:text="Large Text"
         android:id="@+id/itemName"
         android:layout_weight="0.90" />
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textAppearance="?android:attr/textAppearanceLarge"
+              android:id="@+id/dueDate"
+
+        />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/itemPriority"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="High"
-        android:id="@+id/itemPriority"
         android:layout_gravity="right"
         android:gravity="center"
-        android:layout_marginRight="10dp" />
+        android:layout_marginRight="5dp" />
 </LinearLayout>

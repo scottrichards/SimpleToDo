@@ -26,11 +26,12 @@ public class EditTaskActivity extends ActionBarActivity implements OnItemSelecte
     private TextView dueDateText;
     public String newPriority;
     public Date newDate;
-    public Boolean setDate;
+    public Boolean setDate = false;
 
     // read in the data passed from the main view and set the edittext
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setDate = false;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_task);
         itemId = getIntent().getLongExtra("id", 0L);

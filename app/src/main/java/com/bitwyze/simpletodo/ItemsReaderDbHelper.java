@@ -22,6 +22,7 @@ public class ItemsReaderDbHelper extends SQLiteOpenHelper {
     private static ItemsReaderDbHelper _instance;
 
 
+    private static final String INT_TYPE = " INTEGER";
     private static final String TEXT_TYPE = " TEXT";
     private static final String COMMA_SEP = ",";
     private static final String SQL_CREATE_ENTRIES =
@@ -30,6 +31,7 @@ public class ItemsReaderDbHelper extends SQLiteOpenHelper {
                     ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_ENTRY_ID + TEXT_TYPE + COMMA_SEP +
                     ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_TITLE + TEXT_TYPE + COMMA_SEP +
                     ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_PRIORITY + TEXT_TYPE +
+                    ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_DUE_DATE + INT_TYPE +
             " )";
     private static final String SQL_GET_RECORD =    "SELECT  * FROM " + ToDoItemReaderContract.ToDoItemEntry.TABLE_NAME +
                                                     " WHERE " + ToDoItemReaderContract.ToDoItemEntry._ID + " = ";
