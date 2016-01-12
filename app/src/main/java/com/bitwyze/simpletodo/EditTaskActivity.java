@@ -23,10 +23,12 @@ public class EditTaskActivity extends ActionBarActivity implements OnItemSelecte
     Long itemId;
     ToDoItem toDoItem;
     private Spinner prioritySpinner;
-    private TextView dueDateTextView;
+    private Spinner dueDateSpinner;
     public String newPriority;
     public Date newDate;
     public Boolean setDate = false;
+    String[] dateSpinnerArray = { "Today", "Select Date", "No Date"};
+    private ArrayAdapter dateSpinnerArrayAdapter;
 
     // read in the data passed from the main view and set the edittext
     @Override
@@ -40,9 +42,10 @@ public class EditTaskActivity extends ActionBarActivity implements OnItemSelecte
         editText.setText(toDoItem.getTitle());
         newPriority = toDoItem.getPriority();
         addListenerOnSpinnerItemSelection();
-        dueDateTextView = (TextView) findViewById(R.id.displayDate);
-        dueDateTextView.setText(toDoItem.getFormattedDate());
+
+ //       dueDateTextView.setText(toDoItem.getFormattedDate());
         setPrioritySpinnerItem(newPriority);
+        setupDateSpinner();
     }
 
     public void addListenerOnSpinnerItemSelection() {
@@ -50,6 +53,14 @@ public class EditTaskActivity extends ActionBarActivity implements OnItemSelecte
         prioritySpinner.setOnItemSelectedListener(this);
     }
 
+    private void setupDateSpinner() {
+        dueDateSpinner = (Spinner) findViewById(R.id.dateSpinner);
+        dateSpinnerArrayAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, dateSpinnerArray);
+        dateSpinnerArrayAdapter.setDropDownViewResource(
+                android.R.layout.simple_spinner_dropdown_item);
+        dueDateSpinner.setAdapter(dateSpinnerArrayAdapter);
+        dueDateSpinner.setOnItemSelectedListener(this);
+    }
     private void setPrioritySpinnerItem(String priority)
     {
         prioritySpinner.setSelection(((ArrayAdapter) prioritySpinner.getAdapter()).getPosition(priority));
@@ -80,9 +91,9 @@ public class EditTaskActivity extends ActionBarActivity implements OnItemSelecte
         if (setDate) {
             this.setDate = setDate;
             this.newDate = selectedDate;
-            dueDateTextView.setText(formattedDate);
+//            dueDateTextView.setText(formattedDate);
         }
-        Log.d("EditTaskActivity","Selected Date: " + formattedDate);
+        Log.d("EditTaskActivity", "Selected Date: " + formattedDate);
     }
 
 
@@ -95,11 +106,29 @@ public class EditTaskActivity extends ActionBarActivity implements OnItemSelecte
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         Log.d("onItemSelected", parent.getItemAtPosition(position).toString());
-        newPriority = parent.getItemAtPosition(position).toString();
+        switch (parent.getId()) {
+            case R.id.spinner :     newPriority = parent.getItemAtPosition(position).toString();
+                                    break;
+            case R.id.dateSpinner : Log.d("EditTaskActivity","dateSpinner selection: " + parent.getItemAtPosition(position).toString());
+                                    setDateSpinnerItem(position,view);
+                                    break;
+
+        }
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    private void setDateSpinnerItem(int item,View view) {
+        switch (item) {
+            case 0 :    this.newDate = new Date();
+                        break;
+            case 1 :    onSetDueDate(view);
+                        break;
+            case 2 :    this.newDate = null;
+                        break;
+        }
     }
 }
