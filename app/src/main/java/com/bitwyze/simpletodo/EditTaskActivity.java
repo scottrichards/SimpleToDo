@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 
+
 public class EditTaskActivity extends ActionBarActivity implements OnItemSelectedListener, DatePickerFragment.EditNameDialogListener {
 //    int itemPosition;
     Long itemId;
@@ -28,7 +29,6 @@ public class EditTaskActivity extends ActionBarActivity implements OnItemSelecte
     public String newPriority;
     public Date newDate;
     public Boolean setDate = false;
-    String[] dateSpinnerArray = { "Today", "Select Date", "No Date"};
     ArrayList<String> dateSpinnerArrayList  = new ArrayList<String>() {{
         add("Today");
         add("Select Date");
@@ -36,6 +36,12 @@ public class EditTaskActivity extends ActionBarActivity implements OnItemSelecte
     }};
     private ArrayAdapter dateSpinnerArrayAdapter;
 
+    public enum DateSelectionEnum {
+        Today,
+        SelectDate,
+        NoDate,
+        CurrentDate
+    }
     // read in the data passed from the main view and set the edittext
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +54,9 @@ public class EditTaskActivity extends ActionBarActivity implements OnItemSelecte
         editText.setText(toDoItem.getTitle());
         newPriority = toDoItem.getPriority();
         addListenerOnSpinnerItemSelection();
-
- //       dueDateTextView.setText(toDoItem.getFormattedDate());
         setPrioritySpinnerItem(newPriority);
         setupDateSpinner();
+        setSelectedDueDate(toDoItem.getFormattedDate());
     }
 
     public void addListenerOnSpinnerItemSelection() {
@@ -97,9 +102,7 @@ public class EditTaskActivity extends ActionBarActivity implements OnItemSelecte
         if (setDate) {
             this.setDate = setDate;
             this.newDate = selectedDate;
-            dateSpinnerArrayList.add(formattedDate);    // add the newly selected formatted date to end of Array List
-            dateSpinnerArrayAdapter.notifyDataSetChanged();
-            dueDateSpinner.setSelection(3);
+            setSelectedDueDate(formattedDate);
         }
         Log.d("EditTaskActivity", "Selected Date: " + formattedDate);
     }
@@ -137,6 +140,20 @@ public class EditTaskActivity extends ActionBarActivity implements OnItemSelecte
                         break;
             case 2 :    this.newDate = null;
                         break;
+        }
+    }
+
+    private void setSelectedDueDate(String formattedDate) {
+        if (formattedDate == null || formattedDate == "") {
+            dueDateSpinner.setSelection(2);
+        } else {
+            if (dateSpinnerArrayList.size() == 3) {
+                dateSpinnerArrayList.add(formattedDate);    // add the newly selected formatted date to end of Array List
+            } else {
+                dateSpinnerArrayList.set(3, formattedDate);
+            }
+            dateSpinnerArrayAdapter.notifyDataSetChanged();
+            dueDateSpinner.setSelection(3);
         }
     }
 }

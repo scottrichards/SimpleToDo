@@ -23,8 +23,11 @@ public class ToDoItem {
 
 
     private String formattedDate;
+    private String formattedDateTime;
     private SimpleDateFormat iso8601Format = new SimpleDateFormat(
             "yyyy-MM-dd HH:mm:ss");
+    private SimpleDateFormat yearMonthDayFormat = new SimpleDateFormat(
+            "yyyy-MM-dd");
 
     public ToDoItem() {
     }
@@ -63,6 +66,10 @@ public class ToDoItem {
         return formattedDate;
     }
 
+    public String getFormattedDateTime() {
+        return formattedDateTime;
+    }
+
     public Date getDueDate() {
         return dueDate;
     }
@@ -70,15 +77,14 @@ public class ToDoItem {
     public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
         this.formattedDate = formatDate(dueDate);
+        this.formattedDateTime = formatDateTime(dueDate);
     }
 
     public ContentValues setValues() {
         ContentValues values = new ContentValues();
         values.put(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_TITLE, title);
         values.put(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_PRIORITY, priority);
-   //     if (dueDate != null) {
-            values.put(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_DUE_DATE, formatDate(dueDate));
-        //    }
+        values.put(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_DUE_DATE, formatDate(dueDate));
         return values;
     }
 
@@ -97,6 +103,14 @@ public class ToDoItem {
 
 
     public String formatDate(Date date) {
+        if (date == null) {
+            return null;
+        } else {
+            return yearMonthDayFormat.format(date);
+        }
+    }
+
+    public String formatDateTime(Date date) {
         if (date == null) {
             return null;
         } else {
