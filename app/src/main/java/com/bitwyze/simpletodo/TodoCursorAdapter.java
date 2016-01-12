@@ -26,24 +26,19 @@ public class TodoCursorAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-// Find fields to populate in inflated template
         ToDoItem  toDoItem = new ToDoItem();
-        // Extract properties from cursor
         toDoItem.setFromCursor(cursor);
         TextView tvBody = (TextView) view.findViewById(R.id.itemName);
         TextView tvPriority = (TextView) view.findViewById(R.id.itemPriority);
-
+        TextView tvDueDate = (TextView) view.findViewById(R.id.dueDate);
         if (toDoItem.getDueDate() != null) {
-            TextView tvDueDate = (TextView) view.findViewById(R.id.dueDate);
             String dateString = DateFormat.format("yyyy-MM-dd", toDoItem.getDueDate()).toString();
             tvDueDate.setText(dateString);
+        } else {
+            tvDueDate.setText("");
         }
-        String body = cursor.getString(cursor.getColumnIndexOrThrow(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_TITLE));
-        String priority = cursor.getString(cursor.getColumnIndexOrThrow(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_PRIORITY));
- //       Long dueDate = new Date(cursor.getLong(ToDoItemReaderContract.ToDoItemEntry.COLUMN_DUE_DATE));
-        // Populate fields with extracted properties
-        tvBody.setText(body);
-        tvPriority.setText(String.valueOf(priority));
+        tvBody.setText(toDoItem.getTitle());
+        tvPriority.setText(toDoItem.getPriority());
     }
 
 

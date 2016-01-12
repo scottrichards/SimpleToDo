@@ -23,7 +23,7 @@ public class EditTaskActivity extends ActionBarActivity implements OnItemSelecte
     Long itemId;
     ToDoItem toDoItem;
     private Spinner prioritySpinner;
-    private TextView dueDateText;
+    private TextView dueDateTextView;
     public String newPriority;
     public Date newDate;
     public Boolean setDate = false;
@@ -40,7 +40,8 @@ public class EditTaskActivity extends ActionBarActivity implements OnItemSelecte
         editText.setText(toDoItem.getTitle());
         newPriority = toDoItem.getPriority();
         addListenerOnSpinnerItemSelection();
-        dueDateText = (TextView) findViewById(R.id.displayDate);
+        dueDateTextView = (TextView) findViewById(R.id.displayDate);
+        dueDateTextView.setText(toDoItem.getFormattedDate());
         setPrioritySpinnerItem(newPriority);
     }
 
@@ -79,7 +80,7 @@ public class EditTaskActivity extends ActionBarActivity implements OnItemSelecte
         if (setDate) {
             this.setDate = setDate;
             this.newDate = selectedDate;
-            dueDateText.setText(formattedDate);
+            dueDateTextView.setText(formattedDate);
         }
         Log.d("EditTaskActivity","Selected Date: " + formattedDate);
     }

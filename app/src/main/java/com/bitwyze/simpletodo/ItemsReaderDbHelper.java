@@ -9,6 +9,7 @@ import android.util.Log;
 import com.bitwyze.simpletodo.ToDoItem;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,8 +31,8 @@ public class ItemsReaderDbHelper extends SQLiteOpenHelper {
                     ToDoItemReaderContract.ToDoItemEntry._ID + " INTEGER PRIMARY KEY," +
                     ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_ENTRY_ID + TEXT_TYPE + COMMA_SEP +
                     ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_TITLE + TEXT_TYPE + COMMA_SEP +
-                    ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_PRIORITY + TEXT_TYPE +
-                    ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_DUE_DATE + INT_TYPE +
+                    ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_PRIORITY + TEXT_TYPE + COMMA_SEP +
+                    ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_DUE_DATE + TEXT_TYPE +
             " )";
     private static final String SQL_GET_RECORD =    "SELECT  * FROM " + ToDoItemReaderContract.ToDoItemEntry.TABLE_NAME +
                                                     " WHERE " + ToDoItemReaderContract.ToDoItemEntry._ID + " = ";
@@ -81,7 +82,7 @@ public class ItemsReaderDbHelper extends SQLiteOpenHelper {
     }
 
     // Insert a post into the database
-    public void addItem(String title,String priority) {
+    public void addItem(String title,String priority,Date dueDate) {
         // Create and/or open the database for writing
         SQLiteDatabase db = getWritableDatabase();
 
@@ -89,11 +90,14 @@ public class ItemsReaderDbHelper extends SQLiteOpenHelper {
         // consistency of the database.
         db.beginTransaction();
         try {
+            ToDoItem toDoItem = new ToDoItem(title,priority,dueDate);
 
-
+   //         ContentValues values = toDoItem.setValues();
             ContentValues values = new ContentValues();
+
             values.put(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_TITLE, title);
             values.put(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_PRIORITY, priority);
+            values.put(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_DUE_DATE, "");
             // Notice how we haven't specified the primary key. SQLite auto increments the primary key column.
             db.insert(ToDoItemReaderContract.ToDoItemEntry.TABLE_NAME, null, values);
             db.setTransactionSuccessful();

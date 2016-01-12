@@ -52,7 +52,7 @@ public class MainActivity extends ActionBarActivity {
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);    // dismiss the keyboard
         imm.hideSoftInputFromWindow(etNewItem.getWindowToken(), 0);
         String itemText = etNewItem.getText().toString();
-        ItemsReaderDbHelper.getInstance(this).addItem(itemText,"Medium");
+        ItemsReaderDbHelper.getInstance(this).addItem(itemText,"Medium",null);
         etNewItem.setText("");      // clear out the item
         readItems();
     }
@@ -112,6 +112,7 @@ public class MainActivity extends ActionBarActivity {
             // Attach cursor adapter to the ListView
             lvItems.setAdapter(todoAdapter);
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
