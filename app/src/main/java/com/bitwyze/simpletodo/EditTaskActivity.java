@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -28,6 +29,11 @@ public class EditTaskActivity extends ActionBarActivity implements OnItemSelecte
     public Date newDate;
     public Boolean setDate = false;
     String[] dateSpinnerArray = { "Today", "Select Date", "No Date"};
+    ArrayList<String> dateSpinnerArrayList  = new ArrayList<String>() {{
+        add("Today");
+        add("Select Date");
+        add("No Date");
+    }};
     private ArrayAdapter dateSpinnerArrayAdapter;
 
     // read in the data passed from the main view and set the edittext
@@ -55,7 +61,7 @@ public class EditTaskActivity extends ActionBarActivity implements OnItemSelecte
 
     private void setupDateSpinner() {
         dueDateSpinner = (Spinner) findViewById(R.id.dateSpinner);
-        dateSpinnerArrayAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, dateSpinnerArray);
+        dateSpinnerArrayAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, dateSpinnerArrayList);
         dateSpinnerArrayAdapter.setDropDownViewResource(
                 android.R.layout.simple_spinner_dropdown_item);
         dueDateSpinner.setAdapter(dateSpinnerArrayAdapter);
@@ -91,7 +97,9 @@ public class EditTaskActivity extends ActionBarActivity implements OnItemSelecte
         if (setDate) {
             this.setDate = setDate;
             this.newDate = selectedDate;
-//            dueDateTextView.setText(formattedDate);
+            dateSpinnerArrayList.add(formattedDate);    // add the newly selected formatted date to end of Array List
+            dateSpinnerArrayAdapter.notifyDataSetChanged();
+            dueDateSpinner.setSelection(3);
         }
         Log.d("EditTaskActivity", "Selected Date: " + formattedDate);
     }
