@@ -32,8 +32,7 @@ public class TodoCursorAdapter extends CursorAdapter {
         TextView tvPriority = (TextView) view.findViewById(R.id.itemPriority);
         TextView tvDueDate = (TextView) view.findViewById(R.id.dueDate);
         if (toDoItem.getDueDate() != null) {
-            String dateString = DateFormat.format("yyyy-MM-dd", toDoItem.getDueDate()).toString();
-            tvDueDate.setText(dateString);
+            tvDueDate.setText(toDoItem.getFormattedDate());
         } else {
             tvDueDate.setText("");
         }

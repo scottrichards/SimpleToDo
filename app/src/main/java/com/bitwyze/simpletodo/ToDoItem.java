@@ -123,7 +123,22 @@ public class ToDoItem {
             if (dateString == null || dateString == "") {
                 return null;
             }
-            Date date = iso8601Format.parse(dateString);
+            Date date = yearMonthDayFormat.parse(dateString);
+            System.out.println(date);
+            return date;
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Date parseDatTimeString(String dateTimeString) {
+        try {
+            if (dateTimeString == null || dateTimeString == "") {
+                return null;
+            }
+            Date date = iso8601Format.parse(dateTimeString);
             System.out.println(date);
             return date;
         } catch (ParseException e) {
