@@ -4,6 +4,7 @@
     <string name="title_activity_edit_task">Edit Task</string>
     <string name="priority_prompt">Choose a priority</string>
     <string-array name="priority_arrays">
+        <item>None</item>
         <item>High</item>
         <item>Medium</item>
         <item>Low</item>

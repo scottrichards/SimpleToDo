@@ -91,9 +91,9 @@ public class MainActivity extends ActionBarActivity {
                         // Get the state's capital from this row in the database.
                         Long itemId =
                                 cursor.getLong(cursor.getColumnIndexOrThrow(ToDoItemReaderContract.ToDoItemEntry._ID));
-                        String itemTitle =
-                                cursor.getString(cursor.getColumnIndexOrThrow(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_TITLE));
-                        Log.d(this.getClass().getSimpleName(),"Item: " + itemTitle);
+//                        String itemTitle =
+//                                cursor.getString(cursor.getColumnIndexOrThrow(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_TITLE));
+//                        Log.d(this.getClass().getSimpleName(),"Item: " + itemTitle);
                         Intent editIntent = new Intent(MainActivity.this,EditTaskActivity.class);
                         editIntent.putExtra("id", itemId);
                         startActivity(editIntent);

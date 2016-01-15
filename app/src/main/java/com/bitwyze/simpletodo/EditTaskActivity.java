@@ -35,6 +35,7 @@ public class EditTaskActivity extends ActionBarActivity implements OnItemSelecte
         add("No Date");
     }};
     private ArrayAdapter dateSpinnerArrayAdapter;
+    private int previousDueDataSpinnerSelectedItem;
 
     public enum DateSelectionEnum {
         Today,
@@ -103,6 +104,8 @@ public class EditTaskActivity extends ActionBarActivity implements OnItemSelecte
             this.setDate = setDate;
             this.newDate = selectedDate;
             setSelectedDueDate(formattedDate);
+        } else {
+            dueDateSpinner.setSelection(previousDueDataSpinnerSelectedItem);
         }
         Log.d("EditTaskActivity", "Selected Date: " + formattedDate);
     }
@@ -146,6 +149,7 @@ public class EditTaskActivity extends ActionBarActivity implements OnItemSelecte
     private void setSelectedDueDate(String formattedDate) {
         if (formattedDate == null || formattedDate == "") {
             dueDateSpinner.setSelection(2);
+            previousDueDataSpinnerSelectedItem = 2;
         } else {
             if (dateSpinnerArrayList.size() == 3) {
                 dateSpinnerArrayList.add(formattedDate);    // add the newly selected formatted date to end of Array List
@@ -154,6 +158,7 @@ public class EditTaskActivity extends ActionBarActivity implements OnItemSelecte
             }
             dateSpinnerArrayAdapter.notifyDataSetChanged();
             dueDateSpinner.setSelection(3);
+            previousDueDataSpinnerSelectedItem = 3;
         }
     }
 }
