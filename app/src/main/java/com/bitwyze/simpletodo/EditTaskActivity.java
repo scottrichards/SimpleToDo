@@ -30,19 +30,18 @@ public class EditTaskActivity extends ActionBarActivity implements OnItemSelecte
     public Date newDate;
     public Boolean setDate = false;
     ArrayList<String> dateSpinnerArrayList  = new ArrayList<String>() {{
-        add("Today");
         add("Select Date");
-        add("No Date");
+        add("None");
     }};
     private ArrayAdapter dateSpinnerArrayAdapter;
     private int previousDueDataSpinnerSelectedItem;
 
-    public enum DateSelectionEnum {
-        Today,
-        SelectDate,
-        NoDate,
-        CurrentDate
-    }
+    // Constants for selections in the Date Spinner
+    private static final int SELECT_DATE = 0;
+    private static final int NO_DATE = 1;
+    private static final int CURRENT_DATE = 2;
+
+
     // read in the data passed from the main view and set the edittext
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,28 +145,27 @@ public class EditTaskActivity extends ActionBarActivity implements OnItemSelecte
 
     private void setDateSpinnerItem(int item,View view) {
         switch (item) {
-            case 0 :    this.newDate = new Date();
+            case SELECT_DATE :    onSetDueDate(view);
                         break;
-            case 1 :    onSetDueDate(view);
-                        break;
-            case 2 :    this.newDate = null;
-                        break;
+            case NO_DATE :      this.newDate = null;
+                                setDate = true;
+                                break;
         }
     }
 
     private void setSelectedDueDate(String formattedDate) {
         if (formattedDate == null || formattedDate == "") {
-            dueDateSpinner.setSelection(2);
-            previousDueDataSpinnerSelectedItem = 2;
+            dueDateSpinner.setSelection(NO_DATE);
+            previousDueDataSpinnerSelectedItem = NO_DATE;
         } else {
-            if (dateSpinnerArrayList.size() == 3) {
+            if (dateSpinnerArrayList.size() == CURRENT_DATE) {
                 dateSpinnerArrayList.add(formattedDate);    // add the newly selected formatted date to end of Array List
             } else {
-                dateSpinnerArrayList.set(3, formattedDate);
+                dateSpinnerArrayList.set(CURRENT_DATE, formattedDate);
             }
             dateSpinnerArrayAdapter.notifyDataSetChanged();
-            dueDateSpinner.setSelection(3);
-            previousDueDataSpinnerSelectedItem = 3;
+            dueDateSpinner.setSelection(CURRENT_DATE);
+            previousDueDataSpinnerSelectedItem = CURRENT_DATE;
         }
     }
 }

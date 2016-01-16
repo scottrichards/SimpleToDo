@@ -39,23 +39,25 @@ public class MainActivity extends ActionBarActivity {
             readFromDatabase = true;
 
         }
-
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setLogo(R.mipmap.ic_launcher);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
         setupListViewListener();
 
     }
 
 
-    // add an item to To Do List
-    public void onAddItem(View v)
-    {
-        EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);    // dismiss the keyboard
-        imm.hideSoftInputFromWindow(etNewItem.getWindowToken(), 0);
-        String itemText = etNewItem.getText().toString();
-        ItemsReaderDbHelper.getInstance(this).addItem(itemText, "Medium", null);
-        etNewItem.setText("");      // clear out the item
-        readItems();
-    }
+    // add an item to To Do List from Add Button
+//    public void onAddItem(View v)
+//    {
+//        EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
+//        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);    // dismiss the keyboard
+//        imm.hideSoftInputFromWindow(etNewItem.getWindowToken(), 0);
+//        String itemText = etNewItem.getText().toString();
+//        ItemsReaderDbHelper.getInstance(this).addItem(itemText, "Medium", null);
+//        etNewItem.setText("");      // clear out the item
+//        readItems();
+//    }
 
     private void dismissKeyboard() {
 
