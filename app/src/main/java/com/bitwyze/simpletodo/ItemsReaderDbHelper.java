@@ -80,6 +80,10 @@ public class ItemsReaderDbHelper extends SQLiteOpenHelper {
         toDoItem.setFromCursor(cursor);
         return toDoItem;
     }
+    // Insert a post into the database
+    public void addItem(ToDoItem toDoItem) {
+        addItem(toDoItem.getTitle(),toDoItem.getPriority(),toDoItem.getDueDate());
+    }
 
     // Insert a post into the database
     public void addItem(String title,String priority,Date dueDate) {

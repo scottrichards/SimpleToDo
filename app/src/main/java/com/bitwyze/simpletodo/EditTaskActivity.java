@@ -51,7 +51,11 @@ public class EditTaskActivity extends ActionBarActivity implements OnItemSelecte
         setContentView(R.layout.activity_edit_task);
         itemId = getIntent().getLongExtra("id", 0L);
         EditText editText = (EditText)findViewById(R.id.editText);
-        toDoItem = ItemsReaderDbHelper.getInstance(this).getItem(this, itemId);
+        if (itemId == 0) {
+            toDoItem = new ToDoItem();
+        } else {
+            toDoItem = ItemsReaderDbHelper.getInstance(this).getItem(this, itemId);
+        }
         editText.setText(toDoItem.getTitle());
         newPriority = toDoItem.getPriority();
         addListenerOnSpinnerItemSelection();
@@ -88,7 +92,12 @@ public class EditTaskActivity extends ActionBarActivity implements OnItemSelecte
         if (setDate) {
             toDoItem.setDueDate(newDate);
         }
-        ItemsReaderDbHelper.getInstance(this).updateItem(toDoItem);
+        // if no itemId we are creating a new item instead of updating
+        if (itemId == 0) {
+            ItemsReaderDbHelper.getInstance(this).addItem(toDoItem);
+        } else {
+            ItemsReaderDbHelper.getInstance(this).updateItem(toDoItem);
+        }
         startActivity(mainIntent);
     }
 

@@ -52,7 +52,7 @@ public class MainActivity extends ActionBarActivity {
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);    // dismiss the keyboard
         imm.hideSoftInputFromWindow(etNewItem.getWindowToken(), 0);
         String itemText = etNewItem.getText().toString();
-        ItemsReaderDbHelper.getInstance(this).addItem(itemText,"Medium",null);
+        ItemsReaderDbHelper.getInstance(this).addItem(itemText, "Medium", null);
         etNewItem.setText("");      // clear out the item
         readItems();
     }
@@ -116,6 +116,13 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate menu from menu resource (res/menu/main)
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -125,7 +132,11 @@ public class MainActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_add) {
+            // to create a new item open editActivity with itemId == 0
+            Intent editIntent = new Intent(MainActivity.this,EditTaskActivity.class);
+            editIntent.putExtra("id", 0);
+            startActivity(editIntent);
             return true;
         }
 
