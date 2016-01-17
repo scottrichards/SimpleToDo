@@ -21,8 +21,9 @@ public class ToDoItem {
     private Date dueDate;
     private String formattedDate;
 
+    public ToDoItem()
+    {
 
-    public ToDoItem() {
     }
 
     public ToDoItem(String title, String priority, Date date) {
@@ -56,7 +57,11 @@ public class ToDoItem {
     }
 
     public String getLocaleDate() {
-        return DateFormatting.getInstance().localeFormat(dueDate);
+        if (dueDate != null) {
+            return DateFormatting.getInstance().localeFormat(dueDate);
+        } else {
+            return "";
+        }
     }
 
 

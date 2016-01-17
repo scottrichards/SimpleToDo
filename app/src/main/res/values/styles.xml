@@ -8,6 +8,8 @@
 
         <!-- Support library compatibility -->
         <item name="actionBarStyle">@style/MyActionBar</item>
+
+        <item name="android:datePickerDialogTheme">@style/MyDatePickerDialogTheme</item>
     </style>
 
 
@@ -17,5 +19,9 @@
 
         <!-- Support library compatibility -->
         <item name="background">@color/primary_blue</item>
+    </style>
+
+    <style name="MyDatePickerDialogTheme" parent="android:Theme.Material.Light.Dialog">
+        <item name="android:colorAccent">@color/primary_blue</item>
     </style>
 </resources>
