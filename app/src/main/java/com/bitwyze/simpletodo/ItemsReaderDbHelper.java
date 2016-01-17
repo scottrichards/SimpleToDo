@@ -38,7 +38,10 @@ public class ItemsReaderDbHelper extends SQLiteOpenHelper {
                                                     " WHERE " + ToDoItemReaderContract.ToDoItemEntry._ID + " = ";
 
     private static final String SQL_DELETE_ENTRIES =
-            "DROP TABLE IF EXISTS " + ToDoItemReaderContract.ToDoItemEntry.TABLE_NAME;
+            "DROP TABLE IF EXISTS " + ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_DUE_DATE;
+
+    private static final String SQL_ORDER_BY =
+            " ORDER BY " + ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_DUE_DATE;
 
 
     private ItemsReaderDbHelper(Context context) {
@@ -68,7 +71,7 @@ public class ItemsReaderDbHelper extends SQLiteOpenHelper {
 
     public Cursor getCursor(Context context) {
         SQLiteDatabase db = ItemsReaderDbHelper.getInstance(context).getWritableDatabase();
-        return db.rawQuery("SELECT  * FROM " + ToDoItemReaderContract.ToDoItemEntry.TABLE_NAME, null);
+        return db.rawQuery("SELECT  * FROM " + ToDoItemReaderContract.ToDoItemEntry.TABLE_NAME + SQL_ORDER_BY, null);
     }
 
     public ToDoItem getItem(Context context,Long itemId) {
@@ -80,13 +83,9 @@ public class ItemsReaderDbHelper extends SQLiteOpenHelper {
         toDoItem.setFromCursor(cursor);
         return toDoItem;
     }
-    // Insert a post into the database
-    public void addItem(ToDoItem toDoItem) {
-        addItem(toDoItem.getTitle(),toDoItem.getPriority(),toDoItem.getDueDate());
-    }
 
     // Insert a post into the database
-    public void addItem(String title,String priority,Date dueDate) {
+    public void addItem(ToDoItem toDoItem) {
         // Create and/or open the database for writing
         SQLiteDatabase db = getWritableDatabase();
 
@@ -94,14 +93,7 @@ public class ItemsReaderDbHelper extends SQLiteOpenHelper {
         // consistency of the database.
         db.beginTransaction();
         try {
-            ToDoItem toDoItem = new ToDoItem(title,priority,dueDate);
-
-   //         ContentValues values = toDoItem.setValues();
-            ContentValues values = new ContentValues();
-
-            values.put(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_TITLE, title);
-            values.put(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_PRIORITY, priority);
-            values.put(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_DUE_DATE, "");
+            ContentValues values = toDoItem.setValues();
             // Notice how we haven't specified the primary key. SQLite auto increments the primary key column.
             db.insert(ToDoItemReaderContract.ToDoItemEntry.TABLE_NAME, null, values);
             db.setTransactionSuccessful();

@@ -24,10 +24,10 @@ public class ToDoItem {
 
     private String formattedDate;
     private String formattedDateTime;
-    private SimpleDateFormat iso8601Format = new SimpleDateFormat(
-            "yyyy-MM-dd HH:mm:ss");
-    private SimpleDateFormat yearMonthDayFormat = new SimpleDateFormat(
-            "yyyy-MM-dd");
+//    private SimpleDateFormat iso8601Format = new SimpleDateFormat(
+//            "yyyy-MM-dd HH:mm:ss");
+//    private SimpleDateFormat yearMonthDayFormat = new SimpleDateFormat(
+//            "yyyy-MM-dd");
 
     public ToDoItem() {
     }
@@ -92,7 +92,7 @@ public class ToDoItem {
         setId(cursor.getLong(cursor.getColumnIndexOrThrow(ToDoItemReaderContract.ToDoItemEntry._ID)));
         setTitle(cursor.getString(cursor.getColumnIndexOrThrow(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_TITLE)));
         setPriority(cursor.getString(cursor.getColumnIndexOrThrow(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_PRIORITY)));
-        setDueDate(parseDateString(cursor.getString(cursor.getColumnIndexOrThrow(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_DUE_DATE))));
+        setDueDate(DateFormatting.getInstance().yearMonthDayFormat(cursor.getString(cursor.getColumnIndexOrThrow(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_DUE_DATE))));
     }
 
     // Will be used by the ArrayAdapter in the ListView
@@ -106,7 +106,7 @@ public class ToDoItem {
         if (date == null) {
             return null;
         } else {
-            return yearMonthDayFormat.format(date);
+            return DateFormatting.getInstance().yearMonthDayFormat(date);
         }
     }
 
@@ -114,38 +114,38 @@ public class ToDoItem {
         if (date == null) {
             return null;
         } else {
-            return iso8601Format.format(date);
+            return DateFormatting.getInstance().iso8601Format(date);
         }
     }
 
-    public Date parseDateString(String dateString) {
-        try {
-            if (dateString == null || dateString == "") {
-                return null;
-            }
-            Date date = yearMonthDayFormat.parse(dateString);
-            System.out.println(date);
-            return date;
-        } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public Date parseDatTimeString(String dateTimeString) {
-        try {
-            if (dateTimeString == null || dateTimeString == "") {
-                return null;
-            }
-            Date date = iso8601Format.parse(dateTimeString);
-            System.out.println(date);
-            return date;
-        } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            return null;
-        }
-    }
+//    public Date parseDateString(String dateString) {
+//        try {
+//            if (dateString == null || dateString == "") {
+//                return null;
+//            }
+//            Date date = yearMonthDayFormat.parse(dateString);
+//  //          System.out.println(date);
+//            return date;
+//        } catch (ParseException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
+//
+//    public Date parseDatTimeString(String dateTimeString) {
+//        try {
+//            if (dateTimeString == null || dateTimeString == "") {
+//                return null;
+//            }
+//            Date date = iso8601Format.parse(dateTimeString);
+//            System.out.println(date);
+//            return date;
+//        } catch (ParseException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
 
 }

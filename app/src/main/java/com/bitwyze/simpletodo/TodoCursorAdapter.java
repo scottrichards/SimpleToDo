@@ -8,12 +8,17 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+
 /**
  * Created by scottrichards on 8/29/15.
  */
-public class TodoCursorAdapter extends CursorAdapter {
-    public TodoCursorAdapter(Context context, Cursor cursor, int flags) {
+public class ToDoCursorAdapter extends CursorAdapter {
+//    private DateFormat dateFormat;
+
+    public ToDoCursorAdapter(Context context, Cursor cursor, int flags) {
         super(context,cursor,flags);
+ //       dateFormat = DateFormat.getDateInstance();
     }
 
     @Override
@@ -29,9 +34,12 @@ public class TodoCursorAdapter extends CursorAdapter {
         TextView tvPriority = (TextView) view.findViewById(R.id.itemPriority);
         TextView tvDueDate = (TextView) view.findViewById(R.id.dueDateLabel);
         if (toDoItem.getDueDate() != null) {
-            tvDueDate.setText(toDoItem.getFormattedDate());
+            String localeDate = DateFormatting.getInstance().localeFormat(toDoItem.getDueDate());
+            tvDueDate.setText(localeDate);
+            tvDueDate.setVisibility(View.VISIBLE);
         } else {
             tvDueDate.setText("");
+            tvDueDate.setVisibility(View.GONE);
         }
         tvBody.setText(toDoItem.getTitle());
         tvPriority.setText(toDoItem.getPriority());

@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="40dp"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
     android:weightSum="1"
               android:gravity="center_vertical"
     >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/itemName"
-        android:layout_weight="0.90" />
     <TextView android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:textAppearance="?android:attr/textAppearanceLarge"
@@ -21,9 +14,19 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_below="@id/dueDateLabel"
+        android:text="Large Text"
+        android:id="@+id/itemName"
+        />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/itemPriority"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="High"
-
-        android:layout_marginRight="5dp" />
-</LinearLayout>
+        android:layout_below="@id/dueDateLabel"
+        android:layout_alignParentRight="true"
+        />
+</RelativeLayout>

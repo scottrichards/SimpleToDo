@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="primary_blue">#3b6b90</color>
+    <color name="priority_red_text">#9c0004</color>
+    <color name="priority_yellow_text">#9c0004</color>
+    <color name="priority_green_text">#9c0004</color>
 </resources>

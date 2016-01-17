@@ -1,26 +1,14 @@
 package com.bitwyze.simpletodo;
 
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
-
-import org.apache.commons.io.FileUtils;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -28,7 +16,7 @@ public class MainActivity extends ActionBarActivity {
     private static final String TAG = "MainActivity";
     private Boolean readFromDatabase = false;
     private Cursor todoCursor;
-    TodoCursorAdapter todoAdapter;
+    ToDoCursorAdapter todoAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +27,7 @@ public class MainActivity extends ActionBarActivity {
             readFromDatabase = true;
 
         }
+        // Add Application Icon to the Action Bar
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setLogo(R.mipmap.ic_launcher);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
@@ -47,21 +36,6 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    // add an item to To Do List from Add Button
-//    public void onAddItem(View v)
-//    {
-//        EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
-//        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);    // dismiss the keyboard
-//        imm.hideSoftInputFromWindow(etNewItem.getWindowToken(), 0);
-//        String itemText = etNewItem.getText().toString();
-//        ItemsReaderDbHelper.getInstance(this).addItem(itemText, "Medium", null);
-//        etNewItem.setText("");      // clear out the item
-//        readItems();
-//    }
-
-    private void dismissKeyboard() {
-
-    }
 
     private void setupListViewListener() {
         // long click indicates deleting an item
@@ -110,7 +84,7 @@ public class MainActivity extends ActionBarActivity {
             todoCursor = ItemsReaderDbHelper.getInstance(this).getCursor(this);
             lvItems = (ListView)findViewById(R.id.lvItems);
             // Setup cursor adapter using cursor from last step
-            todoAdapter = new TodoCursorAdapter(this, todoCursor, 0);
+            todoAdapter = new ToDoCursorAdapter(this, todoCursor, 0);
             // Attach cursor adapter to the ListView
             lvItems.setAdapter(todoAdapter);
         } catch (Exception e) {
