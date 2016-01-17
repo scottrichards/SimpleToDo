@@ -5,10 +5,21 @@
               android:gravity="center_vertical"
     >
 
+
+
     <TextView android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:textAppearance="?android:attr/textAppearanceLarge"
               android:id="@+id/dueDateLabel"
+
+        />
+
+    <CheckBox android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:clickable="false"
+              android:id="@+id/completeCheckBox"
+              android:layout_below="@id/dueDateLabel"
+              android:focusable="false"
         />
 
     <TextView
@@ -16,6 +27,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_below="@id/dueDateLabel"
+        android:layout_toRightOf="@id/completeCheckBox"
         android:text="Large Text"
         android:id="@+id/itemName"
         />

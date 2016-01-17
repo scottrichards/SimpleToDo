@@ -6,6 +6,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
@@ -28,9 +29,23 @@ public class ToDoCursorAdapter extends CursorAdapter {
     // Binds data to the item_todo View for each item
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        ToDoItem  toDoItem = new ToDoItem();
+        final ToDoItem  toDoItem = new ToDoItem();
         toDoItem.setFromCursor(cursor);
-        TextView tvBody = (TextView) view.findViewById(R.id.itemName);
+        final TextView tvItem = (TextView) view.findViewById(R.id.itemName);
+//        tvItem.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                // TODO Auto-generated method stub
+//                if (tvItem.isChecked()) {
+//                    toDoItem.setComplete(1);
+//                } else {
+//                    toDoItem.setComplete(0);
+//                }
+//                ItemsReaderDbHelper.getInstance(v.getContext()).updateItem(toDoItem);
+//            }
+//        });
+        final CheckBox cbComplete = (CheckBox) view.findViewById(R.id.completeCheckBox);
         TextView tvPriority = (TextView) view.findViewById(R.id.itemPriority);
         TextView tvDueDate = (TextView) view.findViewById(R.id.dueDateLabel);
         if (toDoItem.getDueDate() != null) {
@@ -41,11 +56,16 @@ public class ToDoCursorAdapter extends CursorAdapter {
             tvDueDate.setText("");
             tvDueDate.setVisibility(View.GONE);
         }
-        tvBody.setText(toDoItem.getTitle());
+        tvItem.setText(toDoItem.getTitle());
         if (toDoItem.getPriority().equals("None"))   // Don't display "None"
             tvPriority.setText("");
         else
             tvPriority.setText(toDoItem.getPriority());
+        if (toDoItem.getComplete() > 0) {
+            cbComplete.setChecked(true);
+        } else {
+            cbComplete.setChecked(false);
+        }
         switch (toDoItem.getPriority()) {
             case "Low" : tvPriority.setTextColor(context.getResources().getColor( R.color.priority_green_text));
                 break;

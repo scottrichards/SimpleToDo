@@ -73,10 +73,20 @@
         android:spinnerMode="dropdown"
         />
 
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/completeCheckBox"
+        android:text="Complete"
+        android:layout_below="@+id/dateSpinner"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/dateSpinner"
+        android:layout_below="@id/completeCheckBox"
         android:paddingTop="20dp"
         android:gravity="center_horizontal"
         >
@@ -87,7 +97,7 @@
             android:id="@+id/cancelButton"
             android:onClick="onCancel"
             android:layout_toRightOf="@+id/priorityLabel"
-            android:layout_toEndOf="@+id/priorityLabel" android:layout_below="@+id/dateSpinner"/>
+            android:layout_toEndOf="@+id/priorityLabel" />
 
         <Button
             android:layout_width="wrap_content"

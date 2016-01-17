@@ -21,6 +21,16 @@ public class ToDoItem {
     private Date dueDate;
     private String formattedDate;
 
+    public int getComplete() {
+        return complete;
+    }
+
+    public void setComplete(int complete) {
+        this.complete = complete;
+    }
+
+    private int complete;
+
     public ToDoItem()
     {
 
@@ -79,6 +89,7 @@ public class ToDoItem {
         values.put(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_TITLE, title);
         values.put(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_PRIORITY, priority);
         values.put(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_DUE_DATE, formatDate(dueDate));
+        values.put(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_COMPLETE, complete);
         return values;
     }
 
@@ -87,6 +98,7 @@ public class ToDoItem {
         setTitle(cursor.getString(cursor.getColumnIndexOrThrow(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_TITLE)));
         setPriority(cursor.getString(cursor.getColumnIndexOrThrow(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_PRIORITY)));
         setDueDate(DateFormatting.getInstance().yearMonthDayFormat(cursor.getString(cursor.getColumnIndexOrThrow(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_DUE_DATE))));
+        setComplete(cursor.getInt(cursor.getColumnIndexOrThrow(ToDoItemReaderContract.ToDoItemEntry.COLUMN_NAME_COMPLETE)));
     }
 
     // Will be used by the ArrayAdapter in the ListView

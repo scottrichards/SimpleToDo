@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -26,6 +27,7 @@ public class EditTaskActivity extends ActionBarActivity implements OnItemSelecte
     ToDoItem toDoItem;
     private Spinner prioritySpinner;
     private Spinner dueDateSpinner;
+    private CheckBox completeCheckBox;
     public String newPriority;
     public Date newDate;
     public Boolean setDate = false;
@@ -60,6 +62,7 @@ public class EditTaskActivity extends ActionBarActivity implements OnItemSelecte
         addListenerOnSpinnerItemSelection();
         setPrioritySpinnerItem(newPriority);
         setupDateSpinner();
+        setupCompleteCheckBox(toDoItem.getComplete());
         setSelectedDueDate(toDoItem.getLocaleDate());
     }
 
@@ -76,6 +79,29 @@ public class EditTaskActivity extends ActionBarActivity implements OnItemSelecte
         dueDateSpinner.setAdapter(dateSpinnerArrayAdapter);
         dueDateSpinner.setOnItemSelectedListener(this);
     }
+
+    private void setupCompleteCheckBox(int complete)
+    {
+        final CheckBox completeCheckBox = (CheckBox)findViewById(R.id.completeCheckBox);
+        if (complete > 0) {
+            completeCheckBox.setChecked(true);
+        } else {
+            completeCheckBox.setChecked(false);
+        }
+        completeCheckBox.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                if (completeCheckBox.isChecked()) {
+                    toDoItem.setComplete(1);
+                } else {
+                    toDoItem.setComplete(0);
+                }
+            }
+        });
+    }
+
     private void setPrioritySpinnerItem(String priority)
     {
         prioritySpinner.setSelection(((ArrayAdapter) prioritySpinner.getAdapter()).getPosition(priority));
