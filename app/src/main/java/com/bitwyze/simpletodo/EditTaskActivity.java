@@ -60,7 +60,7 @@ public class EditTaskActivity extends ActionBarActivity implements OnItemSelecte
         addListenerOnSpinnerItemSelection();
         setPrioritySpinnerItem(newPriority);
         setupDateSpinner();
-        setSelectedDueDate(toDoItem.getFormattedDate());
+        setSelectedDueDate(toDoItem.getLocaleDate());
     }
 
     public void addListenerOnSpinnerItemSelection() {

@@ -19,15 +19,8 @@ public class ToDoItem {
     private String title;
     private String priority;
     private Date dueDate;
-
-
-
     private String formattedDate;
-    private String formattedDateTime;
-//    private SimpleDateFormat iso8601Format = new SimpleDateFormat(
-//            "yyyy-MM-dd HH:mm:ss");
-//    private SimpleDateFormat yearMonthDayFormat = new SimpleDateFormat(
-//            "yyyy-MM-dd");
+
 
     public ToDoItem() {
     }
@@ -62,13 +55,10 @@ public class ToDoItem {
         this.priority = priority;
     }
 
-    public String getFormattedDate() {
-        return formattedDate;
+    public String getLocaleDate() {
+        return DateFormatting.getInstance().localeFormat(dueDate);
     }
 
-    public String getFormattedDateTime() {
-        return formattedDateTime;
-    }
 
     public Date getDueDate() {
         return dueDate;
@@ -77,7 +67,6 @@ public class ToDoItem {
     public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
         this.formattedDate = formatDate(dueDate);
-        this.formattedDateTime = formatDateTime(dueDate);
     }
 
     public ContentValues setValues() {
@@ -118,34 +107,5 @@ public class ToDoItem {
         }
     }
 
-//    public Date parseDateString(String dateString) {
-//        try {
-//            if (dateString == null || dateString == "") {
-//                return null;
-//            }
-//            Date date = yearMonthDayFormat.parse(dateString);
-//  //          System.out.println(date);
-//            return date;
-//        } catch (ParseException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
-//
-//    public Date parseDatTimeString(String dateTimeString) {
-//        try {
-//            if (dateTimeString == null || dateTimeString == "") {
-//                return null;
-//            }
-//            Date date = iso8601Format.parse(dateTimeString);
-//            System.out.println(date);
-//            return date;
-//        } catch (ParseException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
 
 }

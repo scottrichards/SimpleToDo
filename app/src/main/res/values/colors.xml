@@ -2,6 +2,6 @@
 <resources>
     <color name="primary_blue">#3b6b90</color>
     <color name="priority_red_text">#9c0004</color>
-    <color name="priority_yellow_text">#9c0004</color>
-    <color name="priority_green_text">#9c0004</color>
+    <color name="priority_yellow_text">#9c6500</color>
+    <color name="priority_green_text">#006100</color>
 </resources>

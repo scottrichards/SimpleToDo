@@ -2,6 +2,7 @@ package com.bitwyze.simpletodo;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +15,9 @@ import java.text.DateFormat;
  * Created by scottrichards on 8/29/15.
  */
 public class ToDoCursorAdapter extends CursorAdapter {
-//    private DateFormat dateFormat;
 
     public ToDoCursorAdapter(Context context, Cursor cursor, int flags) {
         super(context,cursor,flags);
- //       dateFormat = DateFormat.getDateInstance();
     }
 
     @Override
@@ -26,6 +25,7 @@ public class ToDoCursorAdapter extends CursorAdapter {
         return LayoutInflater.from(context).inflate(R.layout.item_todo, parent, false);
     }
 
+    // Binds data to the item_todo View for each item
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         ToDoItem  toDoItem = new ToDoItem();
@@ -42,8 +42,21 @@ public class ToDoCursorAdapter extends CursorAdapter {
             tvDueDate.setVisibility(View.GONE);
         }
         tvBody.setText(toDoItem.getTitle());
-        tvPriority.setText(toDoItem.getPriority());
+        if (toDoItem.getPriority().equals("None"))   // Don't display "None"
+            tvPriority.setText("");
+        else
+            tvPriority.setText(toDoItem.getPriority());
+        switch (toDoItem.getPriority()) {
+            case "Low" : tvPriority.setTextColor(context.getResources().getColor( R.color.priority_green_text));
+                break;
+            case "Medium" : tvPriority.setTextColor(context.getResources().getColor(R.color.priority_yellow_text));
+                break;
+            case "High" : tvPriority.setTextColor(context.getResources().getColor(R.color.priority_red_text));
+                break;
+
+        }
     }
+
 
 
 }
