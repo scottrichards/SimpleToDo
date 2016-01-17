@@ -10,12 +10,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="To Do Item:"
+        android:text="To Do:"
         android:id="@+id/toDoItemLabel"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:paddingTop="20dp"/>
+        android:layout_marginTop="10dp"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -38,7 +38,7 @@
         android:layout_below="@+id/editText"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:paddingTop="20dp"/>
+        android:layout_marginTop="10dp"/>
 
     <Spinner
         android:layout_width="wrap_content"
@@ -60,7 +60,7 @@
         android:layout_below="@+id/spinner"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:paddingTop="20dp"
+        android:layout_marginTop="10dp"
         />
 
     <Spinner
@@ -81,15 +81,25 @@
         android:layout_below="@+id/dateSpinner"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
         />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/completeCheckBox"
-        android:paddingTop="20dp"
+        android:layout_marginTop="20dp"
         android:gravity="center_horizontal"
         >
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete"
+            android:id="@+id/deleteButton"
+            android:onClick="onDelete"
+            android:layout_toRightOf="@+id/priorityLabel"
+            android:layout_toEndOf="@+id/priorityLabel" />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

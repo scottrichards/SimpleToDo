@@ -151,6 +151,13 @@ public class EditTaskActivity extends ActionBarActivity implements OnItemSelecte
         startActivity(mainIntent);
     }
 
+    public void onDelete(View view)
+    {
+        ItemsReaderDbHelper.getInstance(this).deleteItem(itemId);
+        Intent mainIntent = new Intent(EditTaskActivity.this,MainActivity.class);
+        startActivity(mainIntent);
+    }
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         Log.d("onItemSelected", parent.getItemAtPosition(position).toString());
