@@ -1,4 +1,4 @@
-package com.bitwyze.simpletodo;
+package com.bitwyze.simpletodo.activities;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -9,6 +9,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
+import com.bitwyze.simpletodo.models.ItemsReaderDbHelper;
+import com.bitwyze.simpletodo.R;
+import com.bitwyze.simpletodo.adapters.ToDoCursorAdapter;
+import com.bitwyze.simpletodo.models.ToDoItemReaderContract;
 
 
 public class MainActivity extends ActionBarActivity {

@@ -1,4 +1,4 @@
-package com.bitwyze.simpletodo;
+package com.bitwyze.simpletodo.fragments;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -6,7 +6,8 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.widget.DatePicker;
-import android.widget.TextView;
+
+import com.bitwyze.simpletodo.activities.EditTaskActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

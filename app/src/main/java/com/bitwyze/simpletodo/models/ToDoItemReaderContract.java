@@ -1,4 +1,4 @@
-package com.bitwyze.simpletodo;
+package com.bitwyze.simpletodo.models;
 
 import android.provider.BaseColumns;
 

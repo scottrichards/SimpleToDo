@@ -1,12 +1,10 @@
-package com.bitwyze.simpletodo;
+package com.bitwyze.simpletodo.activities;
 
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,7 +12,11 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.TextView;
+
+import com.bitwyze.simpletodo.fragments.DatePickerFragment;
+import com.bitwyze.simpletodo.models.ItemsReaderDbHelper;
+import com.bitwyze.simpletodo.R;
+import com.bitwyze.simpletodo.models.ToDoItem;
 
 import java.util.ArrayList;
 import java.util.Date;

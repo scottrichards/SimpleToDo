@@ -1,8 +1,7 @@
-package com.bitwyze.simpletodo;
+package com.bitwyze.simpletodo.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,9 @@ import android.widget.CheckBox;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
-import java.text.DateFormat;
+import com.bitwyze.simpletodo.R;
+import com.bitwyze.simpletodo.models.ToDoItem;
+import com.bitwyze.simpletodo.utils.DateFormatting;
 
 /**
  * Created by scottrichards on 8/29/15.
@@ -29,7 +30,7 @@ public class ToDoCursorAdapter extends CursorAdapter {
     // Binds data to the item_todo View for each item
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        final ToDoItem  toDoItem = new ToDoItem();
+        final ToDoItem toDoItem = new ToDoItem();
         toDoItem.setFromCursor(cursor);
         final TextView tvItem = (TextView) view.findViewById(R.id.itemName);
 //        tvItem.setOnClickListener(new View.OnClickListener() {

@@ -1,14 +1,11 @@
-package com.bitwyze.simpletodo;
+package com.bitwyze.simpletodo.models;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import com.bitwyze.simpletodo.utils.DateFormatting;
+
 import java.util.Date;
-import java.util.TimeZone;
 
 
 /**

@@ -1,4 +1,4 @@
-package com.bitwyze.simpletodo;
+package com.bitwyze.simpletodo.utils;
 
 import java.text.DateFormat;
 import java.text.ParseException;
